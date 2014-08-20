@@ -1,5 +1,6 @@
 $(document).ready(function(){
   var uri = "http://localhost:3000";
+  var token = "abc";
 
   var on_link = function(id) {
     return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>";
@@ -64,6 +65,7 @@ $(document).ready(function(){
       var id = $(this).data("id");
       var message = find_message(id);
       var payload = {message: find_message(id)};
+      payload.token = token;
 
       console.log(payload);
 
@@ -79,6 +81,8 @@ $(document).ready(function(){
       var payload = {};
       var id= $(this).data("id");
       payload._method = "delete"
+      payload.token = token;
+
       $.post(uri + "/messages/" + id, payload, function(data, status){
         var message = find_message(id);
         message.on = false;
@@ -95,7 +99,9 @@ $(document).ready(function(){
       ids.push($(this).data('id'))
     });
 
-    $.post(uri + "/messages/batch", {ids: ids}, function(data){
+    payload = {ids: ids};
+    payload.token = token;
+    $.post(uri + "/messages/batch", payload, function(data){
       _.each(data.messages, function(message){
         remote_messages[message.message_id] = message;
       });
