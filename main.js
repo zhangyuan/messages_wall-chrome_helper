@@ -46,6 +46,12 @@ $(document).ready(function(){
       message.remark_name = $(this).find(".user_info a.remark_name").text();
       message.avatar_url = $(this).find(".avatar img").attr("src");
 
+      var image = new Image();
+      image.src = message.avatar_url;
+      image.onload = function() {
+        message.avatar_data_url = getBase64Image(image);
+      };
+
       messages[message.message_id] = message;
 
       if(find_remote_message(message.message_id)){
@@ -108,6 +114,22 @@ $(document).ready(function(){
 
       initialize_messages();
     });
+  }
+
+  function getBase64Image(img) {    
+    var getImageIndex = function() {
+      imageIndex += 1;
+      return imageIndex;
+    }    
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
   }
 
   initialize();
