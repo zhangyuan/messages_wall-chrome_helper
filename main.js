@@ -44,10 +44,10 @@ $(document).ready(function(){
       message.message_id = $(this).data("id");
       message.content = $(this).find(".wxMsg").text();
       message.remark_name = $(this).find(".user_info a.remark_name").text();
-      message.avatar_url = $(this).find(".avatar img").attr("src");
+      message.original_avatar_url = $(this).find(".avatar img").attr("src");
 
       var image = new Image();
-      image.src = message.avatar_url;
+      image.src = message.original_avatar_url;
       image.onload = function() {
         message.avatar_data_url = getBase64Image(image);
       };
