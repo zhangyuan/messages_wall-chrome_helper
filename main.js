@@ -117,10 +117,6 @@ $(document).ready(function(){
   }
 
   function getBase64Image(img) {    
-    var getImageIndex = function() {
-      imageIndex += 1;
-      return imageIndex;
-    }    
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
