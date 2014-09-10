@@ -5,11 +5,19 @@
   "description": "WeChat Helper",
   "version": "1.0",
 
+  "browser_action" : {
+    "default_popup" : "popup.html"
+  },
+
+  "permissions" : [
+    "storage"
+  ],
+
   "content_scripts" : [
     {
       "matches": ["https://mp.weixin.qq.com/*"],
-      "css": ["main.css"],
-      "js": ["jquery-1.11.1.min.js", "main.js", "underscore-min.js"]
+      "css": ["contentscript.css"],
+      "js": ["jquery-1.11.1.min.js", "contentscript.js", "underscore-min.js"]
     }
   ]
 }

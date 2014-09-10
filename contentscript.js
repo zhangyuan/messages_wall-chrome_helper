@@ -1,6 +1,22 @@
 $(document).ready(function(){
-  var uri = "http://localhost:3000";
-  var token = "abc";
+  var token = localStorage["messages_wall:token"];
+  var host = localStorage["messages_wall:host"];
+
+  console.log(token, host);
+  chrome.storage.onChanged.addListener(function(changes, areaName){
+    if (changes.token) {
+      console.log("token", changes.token.newValue);
+      localStorage["messages_wall:token"] = token = changes.token.newValue;
+    }
+
+    if (changes.host) {
+      console.log("host", changes.host.newValue);
+      localStorage["messages_wall:host"] = host = changes.host.newValue;
+    }
+    
+  });
+
+  var uri = "http://" + host;
 
   var on_link = function(id) {
     return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>";
