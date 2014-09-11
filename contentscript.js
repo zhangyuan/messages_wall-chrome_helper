@@ -1,8 +1,11 @@
 $(document).ready(function(){
   var token = localStorage["messages_wall:token"];
   var host = localStorage["messages_wall:host"];
+  var title = localStorage["messages_wall:title"];
+  var title_html = "<span class='wall_title'>" + title + "</span>";
 
   console.log(token, host);
+
   chrome.storage.onChanged.addListener(function(changes, areaName){
     if (changes.token) {
       console.log("token", changes.token.newValue);
@@ -13,13 +16,19 @@ $(document).ready(function(){
       console.log("host", changes.host.newValue);
       localStorage["messages_wall:host"] = host = changes.host.newValue;
     }
-    
+
+    if (changes.title) {
+      console.log("host", changes.title.newValue);
+      localStorage["messages_wall:title"] = host = changes.title.newValue;
+    }
+
+    location.reload();
   });
 
   var uri = "http://" + host;
 
   var on_link = function(id) {
-    return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>";
+    return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>"; 
   }
 
   var on_html = function(id) {
@@ -73,6 +82,8 @@ $(document).ready(function(){
       if(find_remote_message(message.message_id)){
         message.on = true;
       }
+
+      $(this).append(title_html);
 
       if(message.on) {
         $(this).append(off_link(message.message_id));

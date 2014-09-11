@@ -13,3 +13,8 @@ a.delete-message {
 	color: white;
 	margin: 5px;
 }
+
+.wall_title {
+	display: inline-block;
+	margin-left: 5px;
+}
