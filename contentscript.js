@@ -25,10 +25,13 @@ $(document).ready(function(){
     location.reload();
   });
 
+  if(!host)
+    return;
+
   var uri = "http://" + host;
 
   var on_link = function(id) {
-    return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>"; 
+    return "<a class='create-message screen' href='#' data-id='"+ id + "'>上墙</a>";
   }
 
   var on_html = function(id) {
@@ -90,7 +93,7 @@ $(document).ready(function(){
       } else {
         $(this).append(on_link(message.message_id));
       }
-    }); 
+    });
   }
 
   var initialize_buttons = function() {
@@ -134,6 +137,11 @@ $(document).ready(function(){
 
     payload = {ids: ids};
     payload.token = token;
+
+    if(host === "null"){
+        return;
+    }
+
     $.post(uri + "/messages/batch", payload, function(data){
       _.each(data.messages, function(message){
         remote_messages[message.message_id] = message;
@@ -143,7 +151,7 @@ $(document).ready(function(){
     });
   }
 
-  function getBase64Image(img) {    
+  function getBase64Image(img) {
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
