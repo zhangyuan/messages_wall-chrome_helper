@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "WeChat Messages Wall Beta",
-  "description": "WeChat Messages Wall",
+  "name": "微信墙助手Beta",
+  "description": "微信墙助手",
   "version": "0.0.1",
 
   "browser_action" : {
