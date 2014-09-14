@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "WeChat Helper",
-  "description": "WeChat Helper",
-  "version": "1.0",
+  "name": "WeChat Messages Wall Beta",
+  "description": "WeChat Messages Wall",
+  "version": "0.0.1",
 
   "browser_action" : {
     "default_popup" : "popup.html"

@@ -1,15 +1,41 @@
 <html>
   <head>
+    <style>
+      html, body {
+        height: 200px;
+      }
+      form input[type="text"] {
+        width: 300px;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .notice {
+        color: #23B5AF;
+      }
+
+      .sign_out, .sign_out:visited {
+        text-decoration: none;
+        color: #E3493B;
+      }
+
+      .sign_out:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <div id="token"></div>
+    <h1>微信墙助手 Beta</h1>
+    <div class="notice"></div>
     <form id="sign_in" method="POST" accept-charset="utf-8">
       <div>
         <label for="name">密钥</label>
         <input type="text" name="token" value="" id="name">
       </div>  
       <div>
-        <label for="url">Host</label>
+        <label for="host">服务器</label>
         <input type="text" name="host" value="" id="name">
       </div>  
  
@@ -18,7 +44,7 @@
       </div>
     </form>
 
-    <a id="sign_out" href="#"> 退出 </a>
+    <a id="sign_out" class="sign_out" href="#"> 退出 </a>
     <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="popup.js"></script>
   </body>
