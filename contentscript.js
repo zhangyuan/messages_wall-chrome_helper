@@ -135,10 +135,10 @@ $(document).ready(function(){
       ids.push($(this).data('id'))
     });
 
-    payload = {ids: ids};
+    var payload = {ids: ids};
     payload.token = token;
 
-    if(host === "null"){
+    if(host === "null" || $(".message_item").length === 0){
         return;
     }
 
