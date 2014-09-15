@@ -100,7 +100,7 @@ $(document).ready(function(){
       }
     });
   };
-    
+
   var init_admin_sub_msg_view = function(){
       var admin_msg_view = "<div class='admin-msg-view' style='display: none'>" +
           "<p>主持人消息</p>"+
@@ -109,6 +109,7 @@ $(document).ready(function(){
           "<button id='send-btn'>发送</button>"+
           "</div>";
       $("body").append(admin_msg_view);
+      
   };
 
   var show_admin_sub_msg_view = function(){
