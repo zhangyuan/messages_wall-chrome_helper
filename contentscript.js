@@ -46,6 +46,10 @@ $(document).ready(function(){
     return "<span class='delete-message screen' href='#' data-id='"+ id +"'>下墙</span>";
   }
 
+  var show_admin_speak_btn = function(){
+      $("body").append("<a id='admin-sub-btn'class='admin-sub-msg' href='#'>发消息</a>");
+  }
+
   var messages = {};
   var remote_messages = {};
 
@@ -58,6 +62,7 @@ $(document).ready(function(){
   }
 
   var refresh = function(message){
+    console.log(message)
     var id = message.message_id;
     if(message.on) {
       $("a.create-message[data-id='"+id+"']").replaceWith(off_link(id))
@@ -94,9 +99,56 @@ $(document).ready(function(){
         $(this).append(on_link(message.message_id));
       }
     });
-  }
+  };
+
+  var init_admin_sub_msg_view = function(){
+      var admin_msg_view = "<div class='admin-msg-view' style='display: none'>" +
+          "<p>主持人消息</p>"+
+          "<textarea id='admin-msg' placeholder='请输入消息,此消息将在消息墙置顶5分钟,直接点击发送，删除当前显示的主持人消息！'></textarea>"+
+          "<button id='cancel-btn'>取消</button>" +
+          "<button id='send-btn'>发送</button>"+
+          "</div>";
+      $("body").append(admin_msg_view);
+      
+  };
+
+  var show_admin_sub_msg_view = function(){
+      $("div.admin-msg-view").css("display","block");
+  };
+
+  var remove_admin_sub_msg_view = function(){
+      $("div.admin-msg-view").css("display","none");
+  };
+
+  var sub_admin_msg = function(){
+      var msg_str = $("#admin-msg").val();
+      $("#admin-msg").val("");
+      remove_admin_sub_msg_view();
+      var message = {};
+      message.message_id = 0;
+      message.on = true;
+      message.content = msg_str;
+      message.remark_name = "主持人";
+      var img = new Image();
+      img.src = $("img.avatar").attr("src");
+      message.original_avatar_url = $("img.avatar").attr("src");
+      message.message_type = "sticky";
+      img.onload = function() {
+          message.avatar_data_url = getBase64Image(img);
+
+      };
+      var payload = {message: message};
+      payload.token = token;
+      $.post(uri + "/messages", payload, function(data, status){
+          console.log(data);
+      });
+      return false;
+  };
 
   var initialize_buttons = function() {
+    $(document).on("click","a#admin-sub-btn",show_admin_sub_msg_view);
+    $(document).on("click","button#cancel-btn",remove_admin_sub_msg_view);
+    $(document).on("click","button#send-btn",sub_admin_msg);
     $(document).on("click", 'a.create-message', function(){
       var id = $(this).data("id");
       var message = find_message(id);
@@ -130,6 +182,8 @@ $(document).ready(function(){
   }
 
   var initialize = function(){
+    init_admin_sub_msg_view();
+    show_admin_speak_btn();
     var ids = [];
     $(".message_item").each(function() {
       ids.push($(this).data('id'))

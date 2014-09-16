@@ -15,6 +15,52 @@ a.delete-message {
 }
 
 .wall_title {
-	display: inline-block;
-	margin-left: 5px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+a.admin-sub-msg{
+    background-color: #4CC3D9;
+    display: inline-block;
+    padding: 3px;
+    color: white;
+    margin: 5px;
+    position: fixed;
+    right: 10px;
+    height: 30px;
+    top: 50%;
+}
+
+div.admin-msg-view{
+    background-color: grey;
+    width: 50%;
+    position: fixed;
+    padding: 10px;
+    top: 20%;
+    left: 25%;
+    border-radius: 10px;
+}
+
+.admin-msg-view p{
+    color: white;
+    text-align: center;
+}
+.admin-msg-view textarea{
+    width: 100%;
+    display: block;
+    resize: none;
+    height: 80px;
+}
+
+.admin-msg-view button{
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.admin-msg-view button#cancel-btn{
+    float: left;
+}
+
+.admin-msg-view button#send-btn{
+    float: right;
 }
