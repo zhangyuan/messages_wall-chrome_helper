@@ -3,7 +3,7 @@
 
   "name": "微信墙助手Beta",
   "description": "微信墙助手",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "browser_action" : {
     "default_popup" : "popup.html"
