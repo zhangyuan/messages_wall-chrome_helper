@@ -3,7 +3,8 @@ $(document).ready(function(){
   var host = localStorage["messages_wall:host"];
   var title = localStorage["messages_wall:title"];
   var title_html = "<span class='wall_title'>" + title + "</span>";
-
+  var avatar_data_url = null;
+  
   console.log(token, host);
 
   chrome.storage.onChanged.addListener(function(changes, areaName){
@@ -133,16 +134,12 @@ $(document).ready(function(){
       message.on = true;
       message.content = msg_str;
       message.remark_name = "主持人";
-      var img = new Image();
-      img.src = $("img.avatar").attr("src");
       message.original_avatar_url = $("img.avatar").attr("src");
       message.message_type = "sticky";
-      img.onload = function() {
-          message.avatar_data_url = getBase64Image(img);
-
-      };
+      message.avatar_data_url = avatar_data_url;
       var payload = {message: message};
       payload.token = token;
+      console.log(payload);
       $.post(uri + "/messages", payload, function(data, status){
           console.log(data);
       });
@@ -200,7 +197,6 @@ $(document).ready(function(){
     }
 
     $.post(uri + "/messages/batch", payload, function(data){
-        console.log(data);
       _.each(data.messages, function(message){
         remote_messages[message.message_id] = message;
       });
@@ -221,6 +217,15 @@ $(document).ready(function(){
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
   }
 
+  function initialize_avatar() {
+    var img = new Image();
+    img.src = $("img.avatar").attr("src");
+    img.onload = function() {
+      avatar_data_url = getBase64Image(img);
+    };
+  }
+
   initialize();
   initialize_buttons();
+  initialize_avatar();
 });
