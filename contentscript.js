@@ -102,14 +102,18 @@ $(document).ready(function(){
   };
 
   var init_admin_sub_msg_view = function(){
-      var admin_msg_view = "<div class='admin-msg-view' style='display: none'>" +
-          "<p>主持人消息</p>"+
-          "<textarea id='admin-msg' placeholder='请输入消息,此消息将在消息墙置顶5分钟,直接点击发送，删除当前显示的主持人消息！'></textarea>"+
-          "<button id='cancel-btn'>取消</button>" +
-          "<button id='send-btn'>发送</button>"+
-          "</div>";
-      $("body").append(admin_msg_view);
-      
+      $.get(uri + "/messages/sticky.json?token="+token,function(data){
+          var old_msg = data.messages[0];
+          var admin_msg_view = "<div class='admin-msg-view' style='display: none'>" +
+              "<p>主持人消息</p>"+
+              (old_msg ? "<div class='old-msg'><p class='admin-old-msg'>主持人:"+old_msg.content+"</p><a href='#' class='del-admin-msg-btn'>X</a></div>" : "")
+              +
+              "<textarea id='admin-msg' placeholder='请输入消息,此消息将在消息墙置顶5分钟,直接点击发送，删除当前显示的主持人消息！'></textarea>"+
+              "<button id='cancel-btn'>取消</button>" +
+              "<button id='send-btn'>发送</button>"+
+              "</div>";
+          $("body").append(admin_msg_view);
+      });
   };
 
   var show_admin_sub_msg_view = function(){
@@ -188,7 +192,6 @@ $(document).ready(function(){
     $(".message_item").each(function() {
       ids.push($(this).data('id'))
     });
-
     var payload = {ids: ids};
     payload.token = token;
 
@@ -197,6 +200,7 @@ $(document).ready(function(){
     }
 
     $.post(uri + "/messages/batch", payload, function(data){
+        console.log(data);
       _.each(data.messages, function(message){
         remote_messages[message.message_id] = message;
       });

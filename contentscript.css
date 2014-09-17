@@ -50,6 +50,11 @@ div.admin-msg-view{
     display: block;
     resize: none;
     height: 80px;
+    border-radius: 6px;
+    top: 12px;
+    position: relative;
+    text-indent: 12px;
+    padding-top: 10px;
 }
 
 .admin-msg-view button{
@@ -63,4 +68,39 @@ div.admin-msg-view{
 
 .admin-msg-view button#send-btn{
     float: right;
+}
+
+a.del-admin-msg-btn {
+    margin: 6px;
+    display: inline-block;
+    float: right;
+    background-color: red;
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    text-align: center;
+    position: relative;
+    color: white;
+}
+
+a.del-admin-msg-btn:hover {
+    background-color: grey;
+    color: red;
+    text-decoration: none;
+}
+
+p.admin-old-msg {
+    margin: 6px;
+    display: inline-block;
+    position: relative;
+    float: left;
+    color: black;
+}
+
+div.old-msg {
+    float: left;
+    width: 100%;
+    background-color: white;
+    border-radius: 6px;
 }
