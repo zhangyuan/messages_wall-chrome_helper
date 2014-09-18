@@ -101,27 +101,40 @@ $(document).ready(function(){
     });
   };
 
-  var init_admin_sub_msg_view = function(){
+  var show_admin_sub_msg_view = function(){
+      if($("div.admin-msg-view").length){
+          return;
+      }
       $.get(uri + "/messages/sticky.json?token="+token,function(data){
           var old_msg = data.messages[0];
-          var admin_msg_view = "<div class='admin-msg-view' style='display: none'>" +
+          var admin_msg_view = "<div class='admin-msg-view'>" +
               "<p>主持人消息</p>"+
-              (old_msg ? "<div class='old-msg'><p class='admin-old-msg'>主持人:"+old_msg.content+"</p><a href='#' class='del-admin-msg-btn'>X</a></div>" : "")
+              ((old_msg != undefined && old_msg["content"]) ? "<div class='old-msg'><p id='"+old_msg.id+"' class='admin-old-msg'>主持人:"+old_msg.content+"</p><a href='#' class='del-admin-msg-btn'>X</a></div>" : "")
               +
-              "<textarea id='admin-msg' placeholder='请输入消息,此消息将在消息墙置顶5分钟,直接点击发送，删除当前显示的主持人消息！'></textarea>"+
+              "<textarea id='admin-msg' placeholder='请输入消息,此消息将在消息墙置顶5分钟！'></textarea>"+
               "<button id='cancel-btn'>取消</button>" +
               "<button id='send-btn'>发送</button>"+
               "</div>";
           $("body").append(admin_msg_view);
       });
   };
-
-  var show_admin_sub_msg_view = function(){
-      $("div.admin-msg-view").css("display","block");
+  var delete_admin_msg = function (){
+      var id = $("p.admin-old-msg").attr("id");
+      var payload = {};
+      payload._method = "delete";
+      payload.token = token;
+      $.post(uri + "/messages/" + 0, payload, function(data, status){
+          if(data.status == 0){
+              $("div.old-msg").remove();
+          }
+          if(data.status != 0){
+              alert("网络异常！");
+          }
+      });
   };
 
   var remove_admin_sub_msg_view = function(){
-      $("div.admin-msg-view").css("display","none");
+      $("div.admin-msg-view").remove();
   };
 
   var sub_admin_msg = function(){
@@ -153,6 +166,7 @@ $(document).ready(function(){
     $(document).on("click","a#admin-sub-btn",show_admin_sub_msg_view);
     $(document).on("click","button#cancel-btn",remove_admin_sub_msg_view);
     $(document).on("click","button#send-btn",sub_admin_msg);
+    $(document).on("click","a.del-admin-msg-btn",delete_admin_msg);
     $(document).on("click", 'a.create-message', function(){
       var id = $(this).data("id");
       var message = find_message(id);
@@ -172,7 +186,7 @@ $(document).ready(function(){
     $(document).on("click", 'a.delete-message', function(){
       var payload = {};
       var id= $(this).data("id");
-      payload._method = "delete"
+      payload._method = "delete";
       payload.token = token;
 
       $.post(uri + "/messages/" + id, payload, function(data, status){
@@ -183,22 +197,19 @@ $(document).ready(function(){
       });
       return false;
     });
-  }
+  };
 
   var initialize = function(){
-    init_admin_sub_msg_view();
-    show_admin_speak_btn();
     var ids = [];
     $(".message_item").each(function() {
       ids.push($(this).data('id'))
     });
+      show_admin_speak_btn();
     var payload = {ids: ids};
     payload.token = token;
-
     if(host === "null" || $(".message_item").length === 0){
         return;
     }
-
     $.post(uri + "/messages/batch", payload, function(data){
         console.log(data);
       _.each(data.messages, function(message){
