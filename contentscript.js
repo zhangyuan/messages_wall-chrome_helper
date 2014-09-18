@@ -139,6 +139,9 @@ $(document).ready(function(){
 
   var sub_admin_msg = function(){
       var msg_str = $("#admin-msg").val();
+      if(msg_str == ""){
+          return;
+      }
       $("#admin-msg").val("");
       remove_admin_sub_msg_view();
       var message = {};
