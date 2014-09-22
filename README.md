@@ -1,7 +1,11 @@
 messages\_wall\-chrome\_helper
 ====================
 
-Chrome Extension for WeChat to post messages to other servers. The extension will add a button to each message in Wechat Pulic Platform management page.
+Chrome Extension for WeChat to post messages to other servers. The extension will add a button to each message in Wechat Pulic Platform management page. It can be installed from Chrome store via <https://chrome.google.com/webstore/detail/jblcpgecpioblaaglngimeihokjmighm>.
+
+## Server side
+
+<https://github.com/zhangyuan/messages_wall>
 
 ## How to use it?
 
