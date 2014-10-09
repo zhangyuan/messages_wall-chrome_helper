@@ -2,6 +2,7 @@ $(document).ready(function(){
   var token = localStorage["messages_wall:token"];
   var host = localStorage["messages_wall:host"];
   var title = localStorage["messages_wall:title"];
+  var interval = localStorage["messages_wall:interval"];
   var title_html = "<span class='wall_title'>" + title + "</span>";
   var avatar_data_url = null;
   
@@ -23,11 +24,24 @@ $(document).ready(function(){
       localStorage["messages_wall:title"] = host = changes.title.newValue;
     }
 
+    if(changes.interval) {
+      console.log("interval", changes.interval.newValue);
+      localStorage["messages_wall:interval"] = interval = changes.interval.newValue;
+    }
+
     location.reload();
   });
 
   if(!host)
     return;
+
+  var seconds = parseInt(interval);
+  console.log("seconds", seconds);
+  if(seconds && seconds> 0) {
+    setInterval(function(){
+      location.reload();
+    }, seconds * 1000);
+  };
 
   var uri = "http://" + host;
 
